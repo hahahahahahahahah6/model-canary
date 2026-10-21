@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canary Cloud — scaffold</title>
+<link rel="stylesheet" href="styles.css">
+<!--
+  BYO-KEY INVARIANT: this page NEVER sends your API keys to the Canary Cloud
+  server. Keys live in localStorage and are only attached to requests aimed
+  at YOUR provider / Meta endpoints. See docs/DESIGN.md §2 and the Proof
+  panel below. There are intentionally zero third-party scripts on this page.
+-->
+</head>
+<body>
+<header>
+  <h1>🐤 Canary Cloud <span class="tag">scaffold</span></h1>
+  <p class="sub">Paid API users can't verify they're getting the model they paid for.
+     This is the hosted canary — <strong>your keys never leave your browser</strong>.</p>
+</header>
+
+<main>
+<section id="keys" class="card">
+  <h2>1. Your keys (BYO)</h2>
+  <p class="note">Stored <strong>only</strong> in this browser's
+     <code>localStorage</code>. The Canary Cloud server has no endpoint that
+     accepts keys — sending one gets a loud <code>400</code>, by design.</p>
+  <label>Provider base URL (OpenAI-compatible)
+    <input id="providerBase" type="url" placeholder="https://api.example.com/v1">
+  </label>
+  <label>Provider API key
+    <input id="providerKey" type="password" placeholder="sk-…" autocomplete="off">
+  </label>
+  <label>Meta Model API key <span class="dim">(for private question generation — Muse Spark)</span>
+    <input id="metaKey" type="password" placeholder="LLM_…" autocomplete="off">
+  </label>
+  <label>Meta Model API base URL
+    <input id="metaBase" type="url" placeholder="https://api.meta.ai/v1">
+  </label>
+  <div class="row">
+    <button id="saveKeys">Save keys locally</button>
+    <button id="forgetKeys" class="danger">Forget keys</button>
+  </div>
+  <p id="keyStatus" class="status"></p>
+</section>
+
+<section id="run" class="card">
+  <h2>2. Run canary probes</h2>
+  <p class="note">Probes run <strong>in your browser</strong>, straight at your
+     provider. Only keyless results go to <code>/api/verdict</code>.</p>
+  <div class="row">
+    <button id="runProbes">Run probes</button>
+    <button id="genQuestions">Generate private questions (Meta)</button>
+  </div>
+  <div id="results"></div>
+</section>
+
+<section id="proof" class="card">
+  <h2>3. Proof panel</h2>
+  <p class="note">Every outbound <code>fetch</code> this page makes, logged live.
+     Verify: keyed requests go to <em>your</em> hosts; our server only ever sees
+     keyless JSON. Cross-check in DevTools → Network.</p>
+  <ol id="reqLog" class="log"></ol>
+</section>
+</main>
+
+<footer>
+  <p>Canary Cloud scaffold · branch <code>canary-cloud</code> ·
+     <a href="/api/health">API health</a></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
