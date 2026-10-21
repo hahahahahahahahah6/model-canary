@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "model-canary"
+version = "0.1.0"
+description = "Degradation watchdog for LLM APIs: canary probes, append-only ledger, drift alerts"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "hao li" }]
+keywords = ["llm", "degradation", "canary", "monitoring", "ai-safety"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.scripts]
+model-canary = "model_canary.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["model_canary*"]
